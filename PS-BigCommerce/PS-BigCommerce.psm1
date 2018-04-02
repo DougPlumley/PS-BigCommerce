@@ -18,26 +18,37 @@ function Get-BCProduct
     [OutputType([int])]
     Param
     (
+        # Product SKU
+        [Parameter(Mandatory=$false, ValueFromPipelineByPropertyName=$true, Position=0)]
+        [string[]]
+        $SKU,
+
         # Store URL including your unique store hash, I.E.: https://api.bigcommerce.com/stores/{store_hash}/v3/
-        [Parameter(Mandatory=$true, ValueFromPipelineByPropertyName=$true, Position=0)]
+        [Parameter(Mandatory=$true, ValueFromPipelineByPropertyName=$true, Position=1)]
         [System.Uri]
         $APIPath,
 
         # Client-ID as username, Access Token as password.
+        [Parameter(Mandatory=$true, ValueFromPipelineByPropertyName=$true, Position=2)]
         [PSCredential]
         $Credential
     )
 
     Begin
     {
+        $URI = "$($APIPath)catalog/products?"
+
+        if ($SKU) {
+            $URI += "sku=$($SKU)"
+        }
     }
     Process
     {
-        Invoke-RestMethod -Uri "$($APIPath)catalog/products" -ContentType "application/json" -Method Get -Headers @{
+        return (Invoke-RestMethod -Uri $URI -ContentType "application/json" -Method Get -Headers @{
             "Accept" = "application/json"
             "X-Auth-Client" = $Credential.Username
             "X-Auth-Token" = $Credential.GetNetworkCredential().Password
-        }
+        }).data
     }
     End
     {
