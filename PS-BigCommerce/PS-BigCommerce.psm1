@@ -74,7 +74,7 @@ function Update-BCProduct
     (
         # Product SKU
         [Parameter(Mandatory=$false, ValueFromPipelineByPropertyName=$true, Position=0)]
-        [string
+        [string]
         $ID,
 
         # Store URL including your unique store hash, I.E.: https://api.bigcommerce.com/stores/{store_hash}/v3/
@@ -114,12 +114,14 @@ function Update-BCProduct
     {
         $body = @{}
 
-        if ($Name) {$body.Add(Name, $Name)}
-        if ($SKU) {$body.Add(SKU, $SKU)}
-        if ($Weight) {$body.Add(Weight, $Weight)}
-        if ($Width) {$body.Add(Width, $Width)}
-        if ($Height) {$body.Add(Height, $Height)}
-        if ($Depth) {$body.Add(Depth, $Depth)}
+        if ($Name) {$body.Add("Name", $Name)}
+        if ($SKU) {$body.Add("SKU", $SKU)}
+        if ($Weight) {$body.Add("Weight", $Weight)}
+        if ($Width) {$body.Add("Width", $Width)}
+        if ($Height) {$body.Add("Height", $Height)}
+        if ($Depth) {$body.Add("Depth", $Depth)}
+
+        $body = $body | ConvertTo-Json -Depth 20
 
         Invoke-RestMethod -Uri $URI -ContentType "application/json" -Method Put -Body $body -Headers @{
             "Accept" = "application/json"
