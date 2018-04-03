@@ -121,7 +121,7 @@ function Update-BCProduct
         if ($Height) {$body.Add(Height, $Height)}
         if ($Depth) {$body.Add(Depth, $Depth)}
 
-        Invoke-RestMethod -Uri $URI -ContentType "application/json" -Method Put -Headers @{
+        Invoke-RestMethod -Uri $URI -ContentType "application/json" -Method Put -Body $body -Headers @{
             "Accept" = "application/json"
             "X-Auth-Client" = $Credential.Username
             "X-Auth-Token" = $Credential.GetNetworkCredential().Password
