@@ -114,12 +114,12 @@ function Update-BCProduct
     {
         $body = @{}
 
-        if ($Name) {$body.Add("Name", $Name)}
-        if ($SKU) {$body.Add("SKU", $SKU)}
-        if ($Weight) {$body.Add("Weight", $Weight)}
-        if ($Width) {$body.Add("Width", $Width)}
-        if ($Height) {$body.Add("Height", $Height)}
-        if ($Depth) {$body.Add("Depth", $Depth)}
+        if ($Name) {$body.Add("name", $Name)}
+        if ($SKU) {$body.Add("sku", $SKU)}
+        if ($Weight) {$body.Add("weight", $Weight)}
+        if ($Width) {$body.Add("width", $Width)}
+        if ($Height) {$body.Add("height", $Height)}
+        if ($Depth) {$body.Add("depth", $Depth)}
 
         $body = $body | ConvertTo-Json -Depth 20
 
